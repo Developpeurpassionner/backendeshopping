@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Tous les champs doivent respecter les conditions.',
+                'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
                 'error' => $validator->errors()
             ], 422);
         }
@@ -41,13 +41,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'Inscription réussie'], 201);
+        return response()->json(['message' => 'Inscription réussie. Veuillez vous connectez pour effectuer des actions'], 201);
     }
 
     // Connexion
     public function connexion(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('email');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
