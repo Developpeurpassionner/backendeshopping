@@ -47,14 +47,23 @@ class AuthController extends Controller
     // Connexion
     public function connexion(Request $request)
     {
-        $credentials = $request->only('email');
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $token = $user->createToken('auth_token')->plainTextToken;
-            return response()->json(['token' => $token], 200);
+            // Rediriger vers le compte utilisateur avec un message de bienvenue
+            return response()->json([
+                'message' => 'Bienvenue ' . $user->firstname,
+                'token' => $token,
+                'user' => $user
+            ], 200);
         } else {
+            // Rediriger vers la page d'inscription
+            return response()->json([
+                'error' => 'Utilisateur inexistant',
+                'redirect' => url('/inscription')
+            ], 401);
         }
-        return response()->json(['error' => 'utilisateur inexistant'], 401);
     }
 }
