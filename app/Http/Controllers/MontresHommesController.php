@@ -12,9 +12,9 @@ class MontresHommesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|string|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|string',
+            'description' => 'required|text',
         ]);
         if ($validator->fails()) {
             return response()->json([
@@ -38,9 +38,9 @@ class MontresHommesController extends Controller
         // Validation des données du formulaire
         $validator = $request->validate([
            'nom' => 'required|string|max:255',
-            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|string|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|string',
+            'description' => 'required|text',
         ]);
 
         // Trouver la montre par son ID
@@ -65,7 +65,7 @@ class MontresHommesController extends Controller
         $montres_hommes = Montres_Hommes::findOrFail($id);
 
         // Supprimer la montre
-        $montre->delete();
+        $montres_hommes->delete();
 
         // Retourner une réponse JSON indiquant la suppression
         return response()->json(['message' => 'Montre supprimée avec sucssès'], 204);

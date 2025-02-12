@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('montres__hommes', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->binary('photo');
+            $table->string('photo');
             $table->integer('prix');
             $table->text('description');
             $table->timestamps();
