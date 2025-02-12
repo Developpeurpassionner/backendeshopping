@@ -16,3 +16,6 @@ Route::get('auth/{provider}/callback', [SocialAuthController::class, 'handleProv
 Route::post('/montres_pour_hommes', [MontresHommesController::class, 'CreateMontreHommes']); //route pour la création d'une montre pour homme
 Route::put('/montres_pour_hommes/{id}', [MontresHommesController::class, ' UpdateMontreHomme']); //route pour la modification d'une montre pour homme
 Route::delete('/montres_pour_hommes/{id}', [MontresHommesController::class, 'destructionMontreHomme']); //route pour la suppression d'une montre pour homme
+Route::post('/montres_pour_femmes', [MontresFemmesController::class, 'CreateMontreFemme']); //route pour la création d'une montre pour femme
+Route::put('/montres_pour_femmes/{id}', [MontresFemmesController::class, ' UpdateMontreFemme']); //route pour la modification d'une montre pour femme
+Route::delete('/montres_pour_femmes/{id}', [MontresFemmesController::class, 'destructionMontreFemme']); //route pour la suppression d'une montre pour femme
