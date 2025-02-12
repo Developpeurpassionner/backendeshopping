@@ -12,7 +12,7 @@ class MontresHommesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
-            'photo' => 'required|string|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
         ]);
@@ -38,7 +38,7 @@ class MontresHommesController extends Controller
         // Validation des données du formulaire
         $validator = $request->validate([
            'nom' => 'required|string|max:255',
-            'photo' => 'required|string|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
         ]);
