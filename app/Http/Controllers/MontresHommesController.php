@@ -12,11 +12,14 @@ class MontresHommesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
-            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
             'quantité' => 'required|integer',
         ]);
+        $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
+        $filePath = $request->file('photo')->storeAs('public/images_montres', $fileName);
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
@@ -25,10 +28,12 @@ class MontresHommesController extends Controller
         }
 
         $montres_hommes = Montres_Hommes::create([
-            'nom' => $request->name,
-            'photo' => $request->photo,
+            'nom' => $request->nom,
+            'photo'=>$request->photo = '/storage/images_montres/' . $fileName, // Chemin accessible
             'prix' => $request->prix,
             'description' => $request->description,
+            'quantité' => $request->quantité,
+            'genre' => 'homme', // Valeur par défaut
         ]);
         return response()->json(['message' => 'Montre créé avec sucssès'], 201);
     }
@@ -38,8 +43,8 @@ class MontresHommesController extends Controller
     {
         // Validation des données du formulaire
         $validator = $request->validate([
-           'nom' => 'required|string|max:255',
-            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
+            'nom' => 'required|string|max:255',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
         ]);
@@ -54,7 +59,7 @@ class MontresHommesController extends Controller
         return response()->json(['message' => 'Montre modifiée avec sucssès'], 200);
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
+                'message' => 'les champs doivent respecter les conditions.',
                 'error' => $validator->errors()
             ], 422);
         }

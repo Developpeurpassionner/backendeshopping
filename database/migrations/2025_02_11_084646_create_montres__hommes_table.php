@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('montres__hommes', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->binary('photo');
+            $table->string('photo');
             $table->integer('prix');
             $table->string('genre')->default('homme')->nullable(false)
             ->comment('Ce champ est immuable et a pour valeur par défaut "homme".');
