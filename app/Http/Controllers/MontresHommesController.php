@@ -15,6 +15,7 @@ class MontresHommesController extends Controller
             'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
+            'quantité' => 'required|integer',
         ]);
         if ($validator->fails()) {
             return response()->json([

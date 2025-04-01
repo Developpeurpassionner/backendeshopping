@@ -16,7 +16,10 @@ return new class extends Migration
             $table->string('nom');
             $table->binary('photo');
             $table->integer('prix');
+            $table->string('genre')->default('homme')->nullable(false)
+            ->comment('Ce champ est immuable et a pour valeur par défaut "homme".');
             $table->text('description');
+            $table->integer('quantité');
             $table->timestamps();
         });
     }
