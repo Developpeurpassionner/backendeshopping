@@ -18,7 +18,7 @@ class MontresHommesController extends Controller
             'quantité' => 'required|integer',
         ]);
         $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
-        $filePath = $request->file('photo')->storeAs('public/images_montres', $fileName);
+        $filePath = $request->file('photo')->storeAs('public/images_montres_hommes', $fileName);
 
         if ($validator->fails()) {
             return response()->json([
@@ -29,7 +29,7 @@ class MontresHommesController extends Controller
 
         $montres_hommes = Montres_Hommes::create([
             'nom' => $request->nom,
-            'photo'=>$request->photo = '/storage/images_montres/' . $fileName, // Chemin accessible
+            'photo'=>$request->photo = '/storage/images_montres_hommes/' . $fileName, // Chemin accessible
             'prix' => $request->prix,
             'description' => $request->description,
             'quantité' => $request->quantité,
@@ -47,6 +47,7 @@ class MontresHommesController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
+            'quantité' => 'required|integer',
         ]);
 
         // Trouver la montre par son ID

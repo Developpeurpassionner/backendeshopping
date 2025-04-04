@@ -26,4 +26,9 @@ class Montres_Hommes extends Model
             }
         });
     }
+
+    public function commandes()
+    {
+        return $this->hasMany(Commande::class);
+    }
 }

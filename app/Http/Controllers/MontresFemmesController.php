@@ -12,10 +12,15 @@ class MontresFemmesController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
-            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
+            'quantité' => 'required|integer',
         ]);
+
+        $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
+        $filePath = $request->file('photo')->storeAs('public/images_montres_femmes', $fileName);
+
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
@@ -24,10 +29,12 @@ class MontresFemmesController extends Controller
         }
 
         $montres_femmes = Montres_Femmes::create([
-            'nom' => $request->name,
-            'photo' => $request->photo,
+            'nom' => $request->nom,
+            'photo'=>$request->photo = '/storage/images_montres_femmes/' . $fileName, // Chemin accessible            'prix' => $request->prix,
             'prix' => $request->prix,
             'description' => $request->description,
+            'quantité' => $request->quantité,
+            'genre' => 'femme', // Valeur par défaut
         ]);
         return response()->json(['message' => 'Montre créé avec sucssès'], 201);
     }
@@ -37,10 +44,11 @@ class MontresFemmesController extends Controller
     {
         // Validation des données du formulaire
         $validator = $request->validate([
-           'nom' => 'required|string|max:255',
+            'nom' => 'required|string|max:255',
             'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|text',
+            'quantité' => 'required|integer',
         ]);
 
         // Trouver la montre par son ID

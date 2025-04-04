@@ -14,9 +14,12 @@ return new class extends Migration
         Schema::create('montres__femmes', function (Blueprint $table) {
             $table->id();
             $table->string('nom');
-            $table->binary('photo');
+            $table->string('photo');
             $table->integer('prix');
+            $table->string('genre')->default('femme')->nullable(false)
+            ->comment('Ce champ est immuable et a pour valeur par défaut "femme".');
             $table->text('description');
+            $table->integer('quantité');
             $table->timestamps();
         });
     }
