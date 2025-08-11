@@ -29,7 +29,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
+                'message' => 'Tous les champs sont obligatoires et doivent être remplis correctement.',
                 'error' => $validator->errors()
             ], 422);
         }
