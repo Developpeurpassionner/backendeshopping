@@ -63,7 +63,7 @@ class AuthController extends Controller
             $token = $user->createToken('auth_token')->plainTextToken;
             // Rediriger vers le compte utilisateur avec un message de bienvenue
             return response()->json([
-                'message' => 'Bienvenue ' . $user->firstname,
+                'message' => 'Bienvenue ' . $user->firstname ,
                 'token' => $token,
                 'user' => $user,
                 'redirect' => url('/') // URL vers la page d’accueil
