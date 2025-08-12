@@ -13,6 +13,15 @@ class AuthController extends Controller
     // Inscription
     public function inscription(Request $request)
     {
+          // Vérifie si l'email existe déjà
+    $existingUser = User::where('email', $request->email)->first();
+
+    if ($existingUser) {
+        return response()->json([
+            'message' => 'Vous avez déja un compte. Veuillez vous connecter.',
+            'redirect' => url('/connexion')
+        ], 409); // 409 = Conflict
+    }
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
@@ -56,11 +65,13 @@ class AuthController extends Controller
             return response()->json([
                 'message' => 'Bienvenue ' . $user->firstname,
                 'token' => $token,
-                'user' => $user
+                'user' => $user,
+                'redirect' => url('/') // URL vers la page d’accueil
             ], 200);
         } else {
             // Rediriger vers la page d'inscription
             return response()->json([
+                 'message' => "Vous n'êtes pas inscrit! Veuillez vous inscrire.",
                 'error' => 'Utilisateur inexistant',
                 'redirect' => url('/inscription')
             ], 401);
