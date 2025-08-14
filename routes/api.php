@@ -18,3 +18,5 @@ Route::delete('/montres_pour_hommes/{id}', [MontresHommesController::class, 'des
 Route::post('/montres_pour_femmes', [MontresFemmesController::class, 'CreateMontreFemme']); //route pour la création d'une montre pour femme
 Route::put('/montres_pour_femmes/{id}', [MontresFemmesController::class, ' UpdateMontreFemme']); //route pour la modification d'une montre pour femme
 Route::delete('/montres_pour_femmes/{id}', [MontresFemmesController::class, 'destructionMontreFemme']); //route pour la suppression d'une montre pour femme
+Route::post('/Yibshopp_Dashboard', [AuthDashboad::class, 'ConnexionDashboard']); //route pour la connexion au dashboard
+
