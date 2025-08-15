@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 class AuthDashboardController extends Controller
 {
     //connexion au Dashboard
@@ -18,11 +19,13 @@ class AuthDashboardController extends Controller
         if ($request->username === 'ibrahim' && $request->password === 'ibrahim1995') {
             return response()->json([
                 'message' => 'Connexion réussie',
-                'redirect' => '/dashboard'
+                'success' => true,
+                'redirect' => url('/Dashboard')
             ], 200);
         }
           // Échec
         return response()->json([
+            'success' => false,
             'message' => 'Les informations rentrées ne sont pas correctes.'
         ], 401);
     }
