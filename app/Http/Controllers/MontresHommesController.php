@@ -14,7 +14,7 @@ class MontresHommesController extends Controller
             'nom' => 'required|string|max:255',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|text',
+            'description' => 'required|string',
             'quantité' => 'required|integer',
         ]);
         $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
@@ -46,7 +46,7 @@ class MontresHommesController extends Controller
             'nom' => 'required|string|max:255',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|text',
+            'description' => 'required|string',
             'quantité' => 'required|integer',
         ]);
 

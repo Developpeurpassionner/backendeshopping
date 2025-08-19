@@ -14,7 +14,7 @@ class MontresFemmesController extends Controller
             'nom' => 'required|string|max:255',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|text',
+            'description' => 'required|string',
             'quantité' => 'required|integer',
         ]);
 
@@ -47,7 +47,7 @@ class MontresFemmesController extends Controller
             'nom' => 'required|string|max:255',
             'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
-            'description' => 'required|text',
+            'description' => 'required|string',
             'quantité' => 'required|integer',
         ]);
 
