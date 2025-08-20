@@ -30,7 +30,7 @@ class MontresFemmesController extends Controller
 
         $montres_femmes = Montres_Femmes::create([
             'nom' => $request->nom,
-            'photo'=>$request->photo = '/storage/images_montres_femmes/' . $fileName, // Chemin accessible            'prix' => $request->prix,
+            'photo'=>$request->photo = '/storage/images_montres_femmes/' . $fileName, // Chemin accessible
             'prix' => $request->prix,
             'description' => $request->description,
             'quantité' => $request->quantité,
@@ -45,7 +45,7 @@ class MontresFemmesController extends Controller
         // Validation des données du formulaire
         $validator = $request->validate([
             'nom' => 'required|string|max:255',
-            'photo' => 'required|binary|mimes:jpeg,png,jpg,gif,svg',
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'prix' => 'required|integer',
             'description' => 'required|string',
             'quantité' => 'required|integer',
