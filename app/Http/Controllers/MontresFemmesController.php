@@ -18,7 +18,7 @@ class MontresFemmesController extends Controller
             'quantité' => 'required|integer',
         ]);
 
-        $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
+        $fileName =$request->file('photo')->getClientOriginalName();
         $filePath = $request->file('photo')->storeAs('public/images_montres_femmes', $fileName);
 
         if ($validator->fails()) {
@@ -36,7 +36,7 @@ class MontresFemmesController extends Controller
             'quantité' => $request->quantité,
             'genre' => 'femme', // Valeur par défaut
         ]);
-        return response()->json(['message' => 'Montre créé avec sucssès'], 201);
+        return response()->json(['message' => 'Montre créé avec sucssès','MontreAdd'=> $montres_femmes], 201);
     }
 
     // Modification

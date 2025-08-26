@@ -17,7 +17,7 @@ class MontresHommesController extends Controller
             'description' => 'required|string',
             'quantité' => 'required|integer',
         ]);
-        $fileName = time().'_'.$request->file('photo')->getClientOriginalName();
+        $fileName =$request->file('photo')->getClientOriginalName();
         $filePath = $request->file('photo')->storeAs('public/images_montres_hommes', $fileName);
 
         if ($validator->fails()) {
@@ -35,7 +35,7 @@ class MontresHommesController extends Controller
             'quantité' => $request->quantité,
             'genre' => 'homme', // Valeur par défaut
         ]);
-        return response()->json(['message' => 'Montre créé avec sucssès'], 201);
+        return response()->json(['message' => 'Montre créé avec sucssès','MontreAdd'=> $montres_hommes], 201);
     }
 
     // Modification
