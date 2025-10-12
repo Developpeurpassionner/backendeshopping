@@ -21,4 +21,5 @@ Route::put('/montres_pour_femmes/{id}', [MontresFemmesController::class, ' Updat
 Route::delete('/montres_pour_femmes/{id}', [MontresFemmesController::class, 'destructionMontreFemme']); //route pour la suppression d'une montre pour femme
 Route::post('/Admin', [AuthDashboardController::class, 'ConnexionDashboard']); //route pour la connexion au dashboard
 Route::get('/Dashboard', [RecuperationMontresController::class, 'GetMontres']); //route pour récupérer toutes les montres
+Route::get('/montreshommes', [RecupererMontresHommesController::class, 'getmontreshommes']); //route pour récupérer toutes les montres pour hommes
 
