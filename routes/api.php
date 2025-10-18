@@ -7,6 +7,7 @@ use App\Http\Controllers\MontresHommesController;
 use App\Http\Controllers\MontresFemmesController;
 use App\Http\Controllers\AuthDashboardController;
 use App\Http\Controllers\RecuperationMontresController;
+use App\Http\Controllers\RecupererMontresHommesController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
