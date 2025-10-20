@@ -16,6 +16,7 @@ class Montres_Hommes extends Model
         'genre',
         'description',
         'quantité',
+        'categorie',
     ];
 
     protected static function booted()

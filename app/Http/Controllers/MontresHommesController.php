@@ -26,7 +26,8 @@ class MontresHommesController extends Controller
                 'error' => $validator->errors()
             ], 422);
         }
-
+         // Extraire le premier mot du nom
+        $categorie = explode(' ', $request->nom)[0];
         $montres_hommes = Montres_Hommes::create([
             'nom' => $request->nom,
             'photo'=>$request->photo = '/storage/images_montres_hommes/' . $fileName, // Chemin accessible
@@ -34,6 +35,7 @@ class MontresHommesController extends Controller
             'description' => $request->description,
             'quantité' => $request->quantité,
             'genre' => 'homme', // Valeur par défaut
+             'categorie' => $categorie,
         ]);
         return response()->json(['message' => 'Montre créé avec sucssès','MontreAdd'=> $montres_hommes], 201);
     }
