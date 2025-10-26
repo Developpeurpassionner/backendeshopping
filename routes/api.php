@@ -23,4 +23,5 @@ Route::delete('/montres_pour_femmes/{id}', [MontresFemmesController::class, 'des
 Route::post('/Admin', [AuthDashboardController::class, 'ConnexionDashboard']); //route pour la connexion au dashboard
 Route::get('/Dashboard', [RecuperationMontresController::class, 'GetMontres']); //route pour récupérer toutes les montres
 Route::get('/montreshommes', [RecupererMontresHommesController::class, 'getmontreshommes']); //route pour récupérer toutes les montres pour hommes
-
+Route::post('/inscription', [AuthController::class, 'inscription']); //route pour l'inscription
+Route::post('/connexionotp', [AuthController::class, 'verifierOtp']); //route pour vérifier le code OTP
