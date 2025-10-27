@@ -8,6 +8,7 @@ use App\Http\Controllers\MontresFemmesController;
 use App\Http\Controllers\AuthDashboardController;
 use App\Http\Controllers\RecuperationMontresController;
 use App\Http\Controllers\RecupererMontresHommesController;
+use App\Http\Controllers\RecupererMontresFemmesController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -23,5 +24,6 @@ Route::delete('/montres_pour_femmes/{id}', [MontresFemmesController::class, 'des
 Route::post('/Admin', [AuthDashboardController::class, 'ConnexionDashboard']); //route pour la connexion au dashboard
 Route::get('/Dashboard', [RecuperationMontresController::class, 'GetMontres']); //route pour récupérer toutes les montres
 Route::get('/montreshommes', [RecupererMontresHommesController::class, 'getmontreshommes']); //route pour récupérer toutes les montres pour hommes
+Route::get('/montresfemmes', [RecupererMontresFemmesController::class, 'getmontresfemmes']); //route pour récupérer toutes les montres pour femmes
 Route::post('/inscription', [AuthController::class, 'inscription']); //route pour l'inscription
 Route::post('/connexionotp', [AuthController::class, 'verifierOtp']); //route pour vérifier le code OTP

@@ -27,7 +27,8 @@ class MontresFemmesController extends Controller
                 'error' => $validator->errors()
             ], 422);
         }
-
+        // Extraire le premier mot du nom
+        $categorie = explode(' ', $request->nom)[0];
         $montres_femmes = Montres_Femmes::create([
             'nom' => $request->nom,
             'photo'=>$request->photo = '/storage/images_montres_femmes/' . $fileName, // Chemin accessible

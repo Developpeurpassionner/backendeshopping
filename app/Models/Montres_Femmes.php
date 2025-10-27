@@ -15,6 +15,7 @@ class Montres_Femmes extends Model
         'genre',
         'description',
         'quantité',
+        'categorie',
     ];
 
     protected static function booted()
