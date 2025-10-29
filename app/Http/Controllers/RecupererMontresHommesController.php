@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Montres_Hommes;
 class RecupererMontresHommesController extends Controller
 {
-    // fonction pour récupérer toutes les montres
+    // fonction pour récupérer toutes les montres hommes
     public function getmontreshommes()
     {
          return response()->json(Montres_Hommes::all());

@@ -36,6 +36,7 @@ class MontresFemmesController extends Controller
             'description' => $request->description,
             'quantité' => $request->quantité,
             'genre' => 'femme', // Valeur par défaut
+            'categorie' => $categorie,
         ]);
         return response()->json(['message' => 'Montre créé avec sucssès','MontreAdd'=> $montres_femmes], 201);
     }
