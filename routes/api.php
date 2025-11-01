@@ -27,3 +27,4 @@ Route::get('/montreshommes', [RecupererMontresHommesController::class, 'getmontr
 Route::get('/montresfemmes', [RecupererMontresFemmesController::class, 'getmontresfemmes']); //route pour récupérer toutes les montres pour femmes
 Route::post('/inscription', [AuthController::class, 'inscription']); //route pour l'inscription
 Route::post('/connexionotp', [AuthController::class, 'verifierOtp']); //route pour vérifier le code OTP
+Route::post('/commandes', [CommandeController::class, 'créercommande']); //route pour créer une commande
