@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Commande extends Model
@@ -19,7 +19,7 @@ class Commande extends Model
         'genre_montre',
         'description_montre',
         'prix_unitaire_montre',
-        'quantité_montre',
+        'quantite_montre',
         'prix_total_montre',
     ];
 

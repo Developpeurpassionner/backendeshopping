@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('genre_montre');
             $table->string('description_montre');
             $table->integer('prix_unitaire_montre');
-            $table->integer('quantité_montre');
+            $table->integer('quantite_montre');
             $table->integer('prix_total_montre');
             $table->unsignedBigInteger('montre_id');
             $table->timestamps();

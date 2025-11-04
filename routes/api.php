@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthDashboardController;
 use App\Http\Controllers\RecuperationMontresController;
 use App\Http\Controllers\RecupererMontresHommesController;
 use App\Http\Controllers\RecupererMontresFemmesController;
+use App\Http\Controllers\CommandeController;
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
@@ -28,3 +29,5 @@ Route::get('/montresfemmes', [RecupererMontresFemmesController::class, 'getmontr
 Route::post('/inscription', [AuthController::class, 'inscription']); //route pour l'inscription
 Route::post('/connexionotp', [AuthController::class, 'verifierOtp']); //route pour vérifier le code OTP
 Route::post('/commandes', [CommandeController::class, 'créercommande']); //route pour créer une commande
+Route::post('/commandes/reinitialiser-auto-increment', [CommandeController::class, 'reinitialiserAutoIncrement']); //route pour réinitialiser l'auto-increment des commandes
+Route::get('/ToutesLesCommandes', [CommandeController::class, 'RecupererToutesLesCommandes']); //route pour récupérer toutes les commandes

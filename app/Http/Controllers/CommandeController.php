@@ -6,8 +6,11 @@ use App\Models\Montres_Femmes;
 use App\Models\Montres_Hommes;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+
+set_time_limit(60);
 
 class CommandeController extends Controller
 {
@@ -22,16 +25,15 @@ class CommandeController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function creerCommande(Request $request): JsonResponse
+    public function créercommande(Request $request): JsonResponse
     {
         // Validation uniquement des champs remplis par le client
         $validator = Validator::make($request->all(), [
             'nom_client' => 'required|string|max:255',
             'prenom_client' => 'required|string|max:255',
             'quartier_client' => 'required|string|max:255',
-            'telephone_client' => 'required|string|max:20',
-            'quantité_montre' => 'required|integer|min:1',
-            'montre_id' => 'required|integer',
+            'telephone_client' => 'required|regex:/^[0-9]+$/',
+            'quantite_montre' => 'required|integer|min:1',
         ], [
             'required' => 'Le champ :attribute est requis.',
             'string' => 'Le champ :attribute doit être une chaîne de caractères.',
@@ -77,7 +79,9 @@ class CommandeController extends Controller
             'genre_montre' => $genre,
             'description_montre' => $montre->description,
             'prix_unitaire_montre' => $prixUnitaire,
-            'quantité_montre' => $quantite,
+            'quantite_montre' => is_numeric($request->input('quantite_montre'))
+                ? (int) $request->input('quantite_montre')
+                : 1,
             'prix_total_montre' => $prixTotal,
             'montre_id' => $montreId,
         ]);
@@ -86,5 +90,35 @@ class CommandeController extends Controller
             'message' => 'Votre commande a bien été enregistrée.',
             'commande' => $commande,
         ], 201);
+    }
+
+    public function reinitialiserAutoIncrement()
+    {
+        $nextId = DB::table('commandes as t1')
+            ->leftJoin('commandes as t2', DB::raw('t1.id + 1'), '=', 't2.id')
+            ->whereNull('t2.id')
+            ->min(DB::raw('t1.id + 1'));
+
+        $nextId = $nextId ?? 1;
+
+        DB::statement("ALTER TABLE commandes AUTO_INCREMENT = {$nextId}");
+
+        return response()->json([
+            'message' => "AUTO_INCREMENT réinitialisé à {$nextId}"
+        ]);
+    }
+
+    public function RecupererToutesLesCommandes(Request $request)
+    {
+        $genre = $request->query('genre');  // homme ou femme
+        $query = Commande::query();
+
+        if ($genre) {
+            $query->where('genre_montre', $genre);
+        }
+
+        $commandes = $query->orderBy('created_at', 'desc')->paginate(20);
+
+        return response()->json($commandes);
     }
 }
