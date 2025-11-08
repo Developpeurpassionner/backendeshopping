@@ -49,18 +49,24 @@ class CommandeController extends Controller
         }
 
         $montreId = (int) $request->input('montre_id');
-        $montre = Montres_Hommes::find($montreId);
-        $genre = 'homme';
+        $genre = $request->input('genre_montre');
+
+        if ($genre === 'homme') {
+            $montre = Montres_Hommes::find($montreId);
+        } elseif ($genre === 'femme') {
+            $montre = Montres_Femmes::find($montreId);
+        } else {
+            return response()->json([
+                'message' => 'Genre invalide ou non spécifié.',
+                'errors' => ['genre_montre' => ['Le genre doit être "homme" ou "femme".']]
+            ], 422);
+        }
 
         if (!$montre) {
-            $montre = Montres_Femmes::find($montreId);
-            if (!$montre) {
-                return response()->json([
-                    'message' => 'La montre sélectionnée est introuvable.',
-                    'errors' => ['montre_id' => ['ID invalide ou montre non trouvée.']]
-                ], 422);
-            }
-            $genre = 'femme';
+            return response()->json([
+                'message' => 'La montre sélectionnée est introuvable.',
+                'errors' => ['montre_id' => ['ID invalide ou montre non trouvée.']]
+            ], 422);
         }
 
         // Calcul du prix total
@@ -117,8 +123,18 @@ class CommandeController extends Controller
             $query->where('genre_montre', $genre);
         }
 
-        $commandes = $query->orderBy('created_at', 'desc')->paginate(20);
+        $commandes = $query->orderBy('created_at', 'desc')->paginate(15);
 
         return response()->json($commandes);
+    }
+
+    public function chiffreAffaireTotal()
+    {
+        $total = DB::table('commandes')->sum('prix_total_montre');
+
+        return response()->json([
+            'success' => true,
+            'chiffre_d_affaire_total' => $total
+        ]);
     }
 }

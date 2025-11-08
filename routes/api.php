@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthDashboardController;
 use App\Http\Controllers\RecuperationMontresController;
 use App\Http\Controllers\RecupererMontresHommesController;
 use App\Http\Controllers\RecupererMontresFemmesController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommandeController;
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,3 +32,6 @@ Route::post('/connexionotp', [AuthController::class, 'verifierOtp']); //route po
 Route::post('/commandes', [CommandeController::class, 'créercommande']); //route pour créer une commande
 Route::post('/commandes/reinitialiser-auto-increment', [CommandeController::class, 'reinitialiserAutoIncrement']); //route pour réinitialiser l'auto-increment des commandes
 Route::get('/ToutesLesCommandes', [CommandeController::class, 'RecupererToutesLesCommandes']); //route pour récupérer toutes les commandes
+Route::get('/utilisateurs', [UserController::class, 'RecupererUtilisateurs']); //route pour récupérer tous les utilisateurs
+Route::get('/chiffre-affaire', [CommandeController::class, 'chiffreAffaireTotal']); //route pour calculer et récupérer le chiffre d'affaire total
+
