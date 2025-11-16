@@ -10,11 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Installer PHP et Composer
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -23,14 +21,12 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      # 3. Optimiser Laravel
       - name: Laravel config
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
 
-      # 4. Déployer via FTP
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
