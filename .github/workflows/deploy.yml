@@ -8,15 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    env:
-      FTP_SERVER: ${{ secrets.FTP_SERVER }}
-      FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
-      FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
 
     steps:
+      # 1. Récupérer le code
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # 2. Installer PHP 8.3 (aligné avec ta version locale)
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -24,23 +22,27 @@ jobs:
           extensions: mbstring, bcmath, intl, pdo, mysql
           coverage: none
 
+      # 3. Installer Composer et les dépendances Laravel
       - name: Install dependencies
-        run:  composer install --no-progress --prefer-dist --optimize-autoloader
-         # 4. Générer la clé Laravel
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      # 4. Générer la clé Laravel
       - name: Generate Laravel key
         run: php artisan key:generate
 
-      # 5. Mettre en cache la config et routes
+      # 5. Optimiser Laravel (cache config, routes, vues)
       - name: Optimize Laravel
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
+
+      # 6. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          server: ${{ env.FTP_SERVER }}
-          username: ${{ env.FTP_USERNAME }}
-          password: ${{ env.FTP_PASSWORD }}
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./public
           server-dir: /htdocs
