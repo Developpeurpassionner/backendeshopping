@@ -33,6 +33,8 @@ jobs:
       # 6. Installer les dépendances Laravel
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
+      - name: Create .env file
+        run: cp .env.example .env
 
       # 7. Générer la clé Laravel
       - name: Generate Laravel key
