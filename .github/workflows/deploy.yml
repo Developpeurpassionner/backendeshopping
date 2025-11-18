@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
       # 1. Récupérer le code
@@ -25,15 +25,6 @@ jobs:
       # 3. Vérifier la version PHP
       - name: Check PHP version
         run: php -v
-
-      # 4. Fallback : forcer l’installation et la sélection de PHP 8.3
-      - name: Force install PHP 8.3
-        run: |
-          sudo apt-get update
-          sudo add-apt-repository ppa:ondrej/php -y
-          sudo apt-get install -y php8.3 php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-curl
-          sudo update-alternatives --set php /usr/bin/php8.3
-          php -v
 
       # 5. Nettoyer le cache Composer
       - name: Clear Composer cache
