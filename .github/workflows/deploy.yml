@@ -14,7 +14,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. Installer PHP 8.3
+      # 2. Installer PHP 8.3 via l'action officielle
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -26,30 +26,35 @@ jobs:
       - name: Check PHP version
         run: php -v
 
-      # 4. Fallback : forcer PHP 8.3 si jamais setup-php n’a pas pris effet
+      # 4. Fallback : forcer l’installation et la sélection de PHP 8.3
       - name: Force install PHP 8.3
         run: |
           sudo apt-get update
-          sudo apt-get install -y php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-curl
+          sudo add-apt-repository ppa:ondrej/php -y
+          sudo apt-get install -y php8.3 php8.3-cli php8.3-common php8.3-mbstring php8.3-xml php8.3-curl
           sudo update-alternatives --set php /usr/bin/php8.3
           php -v
 
-      # 5. Installer Composer et les dépendances Laravel
+      # 5. Nettoyer le cache Composer
+      - name: Clear Composer cache
+        run: composer clear-cache
+
+      # 6. Installer les dépendances Laravel
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
 
-      # 6. Générer la clé Laravel
+      # 7. Générer la clé Laravel
       - name: Generate Laravel key
         run: php artisan key:generate
 
-      # 7. Optimiser Laravel (cache config, routes, vues)
+      # 8. Optimiser Laravel (cache config, routes, vues)
       - name: Optimize Laravel
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
 
-      # 8. Déployer via FTP vers InfinityFree
+      # 9. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
