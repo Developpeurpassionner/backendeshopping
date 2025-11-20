@@ -2,6 +2,7 @@
 /node_modules
 /public/build
 /public/hot
+/public/storage
 /storage/*.key
 /storage/pail
 /vendor
@@ -20,3 +21,6 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+# --- Exceptions pour les images de montres ---
+!storage/app/public/images_montres_hommes/
+!storage/app/public/images_montres_femmes/

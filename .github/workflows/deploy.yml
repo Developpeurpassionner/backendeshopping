@@ -61,7 +61,8 @@ jobs:
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
-
+          # 9. Créer le lien symbolique vers public/storage
+          
       # 9. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
