@@ -34,7 +34,7 @@ jobs:
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
       - name: Create .env file
-        run: cp .env.example .env
+        run: rm -f .env && touch .env
       - name: Create .env file
         run: |
          echo "APP_NAME=Laravel" >> .env
