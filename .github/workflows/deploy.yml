@@ -62,7 +62,9 @@ jobs:
           php artisan route:cache
           php artisan view:cache
           # 9. Créer le lien symbolique vers public/storage
-          
+          # 9. Créer le lien symbolique vers public/storage
+      - name: Create storage symlink
+        run: php artisan storage:link
       # 9. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
