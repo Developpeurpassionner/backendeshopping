@@ -73,7 +73,11 @@ jobs:
         run: |
           mkdir -p public/storage
           cp -r storage/app/public/* public/storage/
-        
+         # 🚨 Nouvelle étape : exposer les logs
+      - name: Expose Laravel logs
+        run: |
+          mkdir -p public/logs
+          cp storage/logs/laravel.log public/logs/laravel.log
       # 10. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
