@@ -77,7 +77,11 @@ jobs:
       - name: Expose Laravel logs
         run: |
           mkdir -p public/logs
-          cp storage/logs/laravel.log public/logs/laravel.log
+          if [ -f storage/logs/laravel.log ]; then
+            cp storage/logs/laravel.log public/logs/laravel.log
+          else
+            echo "No laravel.log found, skipping copy"
+          fi
       # 10. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
