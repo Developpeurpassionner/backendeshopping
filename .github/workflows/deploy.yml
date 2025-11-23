@@ -54,21 +54,27 @@ jobs:
       # 6. Générer la clé Laravel
       - name: Generate Laravel key
         run: php artisan key:generate
+         # 7. Nettoyer les caches Laravel
+      - name: Clear Laravel caches
+        run: |
+          php artisan config:clear
+          php artisan route:clear
+          php artisan view:clear
 
-      # 7. Optimiser Laravel (cache config, routes, vues)
+      # 8. Optimiser Laravel (cache config, routes, vues)
       - name: Optimize Laravel
         run: |
           php artisan config:cache
           php artisan route:cache
           php artisan view:cache
           
-     # 8. Simuler storage:link (copier les fichiers)
+     # 9. Simuler storage:link (copier les fichiers)
       - name: Prepare storage
         run: |
           mkdir -p public/storage
           cp -r storage/app/public/* public/storage/
         
-      # 9. Déployer via FTP vers InfinityFree
+      # 10. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
