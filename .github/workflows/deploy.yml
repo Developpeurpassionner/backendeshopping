@@ -26,11 +26,11 @@ jobs:
       - name: Check PHP version
         run: php -v
 
-      # 5. Nettoyer le cache Composer
+      # 4. Nettoyer le cache Composer
       - name: Clear Composer cache
         run: composer clear-cache
 
-      # 6. Installer les dépendances Laravel
+      # 5. Installer les dépendances Laravel
       - name: Install dependencies
         run: composer install --no-dev --optimize-autoloader
       - name: Create .env file
@@ -51,20 +51,23 @@ jobs:
          echo "SESSION_DRIVER=file" >> .env
          echo "CACHE_STORE=file" >> .env
    
-      # 7. Générer la clé Laravel
+      # 6. Générer la clé Laravel
       - name: Generate Laravel key
         run: php artisan key:generate
 
-      # 8. Optimiser Laravel (cache config, routes, vues)
+      # 7. Optimiser Laravel (cache config, routes, vues)
       - name: Optimize Laravel
         run: |
-          php artisan config:clear
-          php artisan route:clear
-          php artisan view:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
           
-      # 9. Créer le lien symbolique vers public/storage
-      - name: Create storage symlink
-        run: php artisan storage:link
+     # 8. Simuler storage:link (copier les fichiers)
+      - name: Prepare storage
+        run: |
+          mkdir -p public/storage
+          cp -r storage/app/public/* public/storage/
+        
       # 9. Déployer via FTP vers InfinityFree
       - name: Deploy to InfinityFree
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
