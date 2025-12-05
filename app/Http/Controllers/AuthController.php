@@ -18,13 +18,14 @@ class AuthController extends Controller
     {
         // Vérifie si l'email existe déjà
         $existingUser = User::where('email', $request->email)->first();
-
+        // Si l'utilisateur existe, renvoi le vers la page de connexion
         if ($existingUser) {
             return response()->json([
                 'message' => 'Vous avez déja un compte. Veuillez vous connecter.',
                 'redirect' => url('/connexion')
             ], 409);  // 409 = Conflict
         }
+        //Les conditions de validation des champs
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
@@ -38,14 +39,14 @@ class AuthController extends Controller
                 'regex:/[0-9]/',  // Au moins un chiffre ,
             ]
         ]);
-
+        //Renvoie un message d'erreur si la validation échoue
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Tous les champs sont obligatoires et doivent être remplis correctement.',
                 'error' => $validator->errors()
             ], 422);
         }
-        // Crée l'utilisateur
+        // Crée l'utilisateur avec un message de succès en retour
         $user = User::create([
             'name' => $request->name,
             'firstname' => $request->firstname,
@@ -64,7 +65,7 @@ class AuthController extends Controller
         ]);
 
         $user = User::where('email', $request->email)->first();
-
+        // Si l'utilisateur existe
         if ($user) {
             // Génère un code OTP à 6 chiffres
             $otp = rand(100000, 999999);
@@ -82,9 +83,10 @@ class AuthController extends Controller
             });
 
             return response()->json([
-                'message' => 'Un code vous a été envoyé par email.',
-                'redirect' => url('/connexionOTP')  // vers le formulaire OTP
+                'message' => 'Un code vous a été envoyé par email.', // Message de confirmation du code OTP envoyé
+                'redirect' => url('/connexionOTP')  // Redirection vers le formulaire pour rentrer le code OTP
             ], 200);
+            // Si l'utilisateur n'existe pas, renvoi un message d'erreur avec redirection vers l'inscription
         } else {
             return response()->json([
                 'message' => "Vous n'êtes pas inscrit! Veuillez vous inscrire.",
@@ -93,24 +95,24 @@ class AuthController extends Controller
             ], 404);
         }
     }
-
+    // Vérification de l'OTP
     public function verifierOtp(Request $request)
     {
         $request->validate([
             'email' => 'required|email',
-            'otp_code' => 'required|digits:6'
+            'otp_code' => 'required|digits:6' // l'OTP doit être composé de 6 chiffres
         ]);
 
         $user = User::where('email', $request->email)
             ->where('otp_code', $request->otp_code)
             ->where('otp_expires_at', '>', now())
             ->first();
-
+        // Si l'OTP est invalide/expiré
         if (!$user) {
             return response()->json(['message' => 'OTP invalide ou expiré.'], 401);
         }
 
-        // Réinitialise l’OTP
+        // Réinitialise l’OTP après une connexion réussie ou après expiration
         $user->otp_code = null;
         $user->otp_expires_at = null;
         $user->save();

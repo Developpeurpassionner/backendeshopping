@@ -10,6 +10,7 @@ class MontresHommesController extends Controller
     //Création d'une montre pour homme
     public function CreateMontreHommes(Request $request)
     {
+        // Règles à rèspecter si l'on veut que la montre se créer
         $validator = Validator::make($request->all(), [
             'nom' => 'required|string|max:255',
             'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
@@ -19,7 +20,7 @@ class MontresHommesController extends Controller
         ]);
         $fileName =$request->file('photo')->getClientOriginalName();
         $filePath = $request->file('photo')->storeAs('public/images_montres_hommes', $fileName);
-
+        // Si les champs remplis ne respectent pas les règles ou sont vide , message d'erreur renvoyé
         if ($validator->fails()) {
             return response()->json([
                 'message' => 'Tous les champs sont obligatoires et doivent respecter les conditions.',
@@ -28,15 +29,16 @@ class MontresHommesController extends Controller
         }
          // Extraire le premier mot du nom
         $categorie = explode(' ', $request->nom)[0];
+        // si les règles sont respectées créer la montre dans la base de données
         $montres_hommes = Montres_Hommes::create([
             'nom' => $request->nom,
-            'photo'=>$request->photo = '/storage/images_montres_hommes/' . $fileName, // Chemin accessible
+            'photo'=>$request->photo = '/storage/images_montres_hommes/' . $fileName, // Chemin accessible qui contient les images de montres hommes
             'prix' => $request->prix,
             'description' => $request->description,
             'quantité' => $request->quantité,
             'genre' => 'homme', // Valeur par défaut
              'categorie' => $categorie,
         ]);
-        return response()->json(['message' => 'Montre créé avec succès','MontreAdd'=> $montres_hommes], 201);
+        return response()->json(['message' => 'Montre créé avec succès','MontreAdd'=> $montres_hommes], 201); // La montre créé est mise dans la clé MontreAdd
     }
 }
